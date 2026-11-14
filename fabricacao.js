@@ -98,7 +98,7 @@ function atualizarTotais() {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${ingrediente}</td>
-      <td><strong style="color:#ff3333; font-size: 1.1rem; text-shadow: 0 0 5px rgba(255, 51, 51, 0.4);">${qtd}</strong></td>
+      <td><strong class="total-highlight">${qtd}</strong></td>
     `;
     tabelaTotais.appendChild(tr);
   });
