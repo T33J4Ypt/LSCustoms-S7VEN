@@ -1,20 +1,18 @@
 const produtos = [
-  { nome: "Kits de Reparação", semParceria: 12000, comParceria: 7500 },
-  { nome: "Ramen", semParceria: 27000, comParceria: 22000 },
-  { nome: "Energético", semParceria: 15000, comParceria: 10000 },
-  { nome: "Reparações nos Elevadores", semParceria: 15000, comParceria: 0 }
+  { nome: "Kits de Reparação", semParceria: 12000, comParceria: 7500 },[cite: 5, 8]
+  { nome: "Ramen", semParceria: 27000, comParceria: 22000 },[cite: 6, 8]
+  { nome: "Energético", semParceria: 15000, comParceria: 10000 },[cite: 6, 8]
+  { nome: "Reparações nos Elevadores", semParceria: 15000, comParceria: 0 }[cite: 7, 8]
 ];
 
-const tbodyDestino =
-  document.getElementById("tabela-geral") ||
-  document.getElementById("tabela-precos");
+const tabelaPrecos = document.getElementById("tabela-precos");
 const btnLimparPrecos = document.getElementById("btn-limpar-precos");
 
 function formatarMoeda(valor) {
   return "€" + valor.toLocaleString("pt-PT");
 }
 
-if (tbodyDestino) {
+if (tabelaPrecos) {
   produtos.forEach((prod, i) => {
     const tr = document.createElement("tr");
 
@@ -27,15 +25,15 @@ if (tbodyDestino) {
       <td id="sub-com-${i}" class="price-discount">€0</td>
     `;
 
-    tbodyDestino.appendChild(tr);
+    tabelaPrecos.appendChild(tr);
+  });
+
+  tabelaPrecos.addEventListener("input", (e) => {
+    if (e.target.classList.contains("input-qtd-preco")) {
+      calcularTotais();
+    }
   });
 }
-
-document.addEventListener("input", (e) => {
-  if (e.target.classList.contains("input-qtd-preco")) {
-    calcularTotais();
-  }
-});
 
 function calcularTotais() {
   let totalSem = 0;
@@ -52,20 +50,26 @@ function calcularTotais() {
     const subSem = qtd * prod.semParceria;
     const subCom = qtd * prod.comParceria;
 
-    document.getElementById(`sub-sem-${index}`).textContent = formatarMoeda(subSem);
-    document.getElementById(`sub-com-${index}`).textContent = formatarMoeda(subCom);
+    const tdSem = document.getElementById(`sub-sem-${index}`);
+    const tdCom = document.getElementById(`sub-com-${index}`);
+    if (tdSem) tdSem.textContent = formatarMoeda(subSem);
+    if (tdCom) tdCom.textContent = formatarMoeda(subCom);
 
     totalSem += subSem;
     totalCom += subCom;
   });
 
-  document.getElementById("total-sem-parceria").textContent = formatarMoeda(totalSem);
-  document.getElementById("total-com-parceria").textContent = formatarMoeda(totalCom);
+  const elTotalSem = document.getElementById("total-sem-parceria");
+  const elTotalCom = document.getElementById("total-com-parceria");
+  if (elTotalSem) elTotalSem.textContent = formatarMoeda(totalSem);
+  if (elTotalCom) elTotalCom.textContent = formatarMoeda(totalCom);
 }
 
 if (btnLimparPrecos) {
   btnLimparPrecos.addEventListener("click", () => {
-    document.querySelectorAll(".input-qtd-preco").forEach(input => input.value = 0);
+    document.querySelectorAll(".input-qtd-preco").forEach((input) => {
+      input.value = 0;
+    });
     calcularTotais();
   });
 }
