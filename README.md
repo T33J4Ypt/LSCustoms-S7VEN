@@ -1,2 +1,2 @@
-# LSC-S7
+# LSCustoms-S7
 LS Customs S7 Crafts
