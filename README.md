@@ -1,2 +1,2 @@
-# AoD-Trafuca
-AoD Trafuca Crafts
+# LSC-S7
+LS Customs S7 Crafts
