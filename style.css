@@ -20,11 +20,12 @@
 body {
   background-color: var(--bg-dark);
   background-image:
-    linear-gradient(180deg, rgba(5, 12, 24, 0.85) 0%, rgba(6, 16, 32, 0.9) 100%),
-    url("Koi.jpg");
-  background-size: cover;
-  background-position: center;
+    linear-gradient(180deg, rgba(5, 12, 24, 0.72) 0%, rgba(6, 16, 32, 0.82) 100%),
+    url("LSC.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
   background-attachment: fixed;
+  background-size: cover;
   color: var(--text-main);
   min-height: 100vh;
   padding: 24px 16px;
