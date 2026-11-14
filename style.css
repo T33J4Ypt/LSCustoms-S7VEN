@@ -229,23 +229,3 @@ input[type="number"]:focus {
 .total-box.highlight strong {
   color: var(--neon-cyan);
 }
-
-.logo-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin: 0 auto 16px auto;
-  text-align: center;
-}
-
-.site-logo {
-  display: block;
-  margin: 0 auto;
-  max-height: 75px;
-  max-width: 220px;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.45));
-}
