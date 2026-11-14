@@ -8,10 +8,12 @@ const produtos = [
 const tabelaPrecos = document.getElementById("tabela-precos");
 const btnLimparPrecos = document.getElementById("btn-limpar-precos");
 
+// Formatar moeda em Euros
 function formatarMoeda(valor) {
   return "€" + valor.toLocaleString("pt-PT");
 }
 
+// Renderizar linhas da tabela
 produtos.forEach((prod, i) => {
   const tr = document.createElement("tr");
 
@@ -27,6 +29,7 @@ produtos.forEach((prod, i) => {
   tabelaPrecos.appendChild(tr);
 });
 
+// Listener para cálculo em tempo real
 tabelaPrecos.addEventListener("input", (e) => {
   if (e.target.classList.contains("input-qtd-preco")) {
     calcularTotais();
@@ -58,6 +61,7 @@ function calcularTotais() {
   document.getElementById("total-com-parceria").textContent = formatarMoeda(totalCom);
 }
 
+// Botão Limpar Tudo
 if (btnLimparPrecos) {
   btnLimparPrecos.addEventListener("click", () => {
     document.querySelectorAll(".input-qtd-preco").forEach(input => input.value = 0);
