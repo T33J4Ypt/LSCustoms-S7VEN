@@ -8,11 +8,11 @@
 </head>
 <body>
 
-<div class="container" style="max-width: 960px;">
+  <div class="container" style="max-width: 680px;">
     <header class="logo-header">
       <img src="LSC-Header.png" alt="LS Customs" class="site-logo">
     </header>
-  
+
     <!-- Navegação entre Páginas -->
     <nav class="nav-tabs">
       <a href="index.html" class="nav-btn active">Calculadora de Fabricação</a>
@@ -23,9 +23,9 @@
       <button id="btn-limpar" type="button" class="button-secondary">Limpar Tudo</button>
     </div>
 
-    <!-- Tabela de Fabricação -->
+    <!-- 1. Tuning -->
     <div class="table-card">
-      <h2>Calculadora de Fabricação</h2>
+      <h2>Tuning</h2>
       <table>
         <thead>
           <tr>
@@ -34,7 +34,37 @@
             <th>Materiais Necessários</th>
           </tr>
         </thead>
-        <tbody id="tabela-fabricacao"></tbody>
+        <tbody id="tabela-tuning"></tbody>
+      </table>
+    </div>
+
+    <!-- 2. Revisão -->
+    <div class="table-card">
+      <h2>Revisão</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Qtd.</th>
+            <th>Materiais Necessários</th>
+          </tr>
+        </thead>
+        <tbody id="tabela-revisao"></tbody>
+      </table>
+    </div>
+
+    <!-- 3. Extras -->
+    <div class="table-card">
+      <h2>Extras</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Qtd.</th>
+            <th>Materiais Necessários</th>
+          </tr>
+        </thead>
+        <tbody id="tabela-extras"></tbody>
       </table>
     </div>
 
@@ -60,4 +90,3 @@
   <script src="fabricacao.js"></script>
 </body>
 </html>
-
