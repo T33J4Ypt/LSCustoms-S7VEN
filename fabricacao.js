@@ -28,12 +28,19 @@ const receitas = [
   { nome: "Motor Elétrico", categoria: "extras", producao: 1, ingredientes: { "Bloco de Motor B+": 1, "Placa de circuito": 2, "Cobre": 6 } }
 ];
 
-const tabelaFabricacao = document.getElementById("tabela-fabricacao");
-const tabelaTotais = document.getElementById("tabela-totais");
-const btnLimpar = document.getElementById("btn-limpar");
+function initFabricacao() {
+  const corposTabela = {
+    tuning: document.getElementById("tabela-tuning"),
+    revisao: document.getElementById("tabela-revisao"),
+    extras: document.getElementById("tabela-extras")
+  };
+  const tabelaTotais = document.getElementById("tabela-totais");
+  const btnLimpar = document.getElementById("btn-limpar");
 
-if (tabelaFabricacao) {
   receitas.forEach((r, i) => {
+    const tbody = corposTabela[r.categoria];
+    if (!tbody) return;
+
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td><strong>${r.nome}</strong></td>
@@ -42,80 +49,89 @@ if (tabelaFabricacao) {
       </td>
       <td id="res-${i}">-</td>
     `;
-    tabelaFabricacao.appendChild(tr);
+    tbody.appendChild(tr);
   });
 
-  tabelaFabricacao.addEventListener("input", (e) => {
-    if (e.target.classList.contains("input-qtd")) {
-      const index = e.target.dataset.index;
-      const qtd = parseInt(e.target.value) || 0;
-      atualizarLinhaReceita(index, qtd);
-      atualizarTotais();
+  Object.values(corposTabela).forEach((tbody) => {
+    if (!tbody) return;
+    tbody.addEventListener("input", (e) => {
+      if (e.target.classList.contains("input-qtd")) {
+        const index = e.target.dataset.index;
+        const qtd = parseInt(e.target.value, 10) || 0;
+        atualizarLinhaReceita(index, qtd);
+        atualizarTotais();
+      }
+    });
+  });
+
+  function atualizarLinhaReceita(index, qtdDesejada) {
+    const tdResultado = document.getElementById(`res-${index}`);
+    if (!tdResultado) return;
+
+    if (qtdDesejada <= 0) {
+      tdResultado.innerHTML = "-";
+      return;
     }
-  });
-}
 
-function atualizarLinhaReceita(index, qtdDesejada) {
-  const tdResultado = document.getElementById(`res-${index}`);
-  if (!tdResultado) return;
+    const receita = receitas[index];
+    const lotes = Math.ceil(qtdDesejada / receita.producao);
 
-  if (qtdDesejada <= 0) {
-    tdResultado.innerHTML = "-";
-    return;
+    tdResultado.innerHTML = Object.entries(receita.ingredientes)
+      .map(([ing, qtdBase]) => `<span class="ingredient-badge">${lotes * qtdBase}x ${ing}</span>`)
+      .join(" ");
   }
 
-  const receita = receitas[index];
-  const lotes = Math.ceil(qtdDesejada / receita.producao);
+  function atualizarTotais() {
+    if (!tabelaTotais) return;
 
-  tdResultado.innerHTML = Object.entries(receita.ingredientes)
-    .map(([ing, qtdBase]) => `<span class="ingredient-badge">${lotes * qtdBase}x ${ing}</span>`)
-    .join(" ");
-}
-
-function atualizarTotais() {
-  if (!tabelaTotais) return;
-
-  const totais = {};
-  document.querySelectorAll(".input-qtd").forEach((input) => {
-    const quantidade = parseInt(input.value) || 0;
-    if (quantidade <= 0) return;
-
-    const receita = receitas[input.dataset.index];
-    if (!receita) return;
-
-    const lotes = Math.ceil(quantidade / receita.producao);
-    for (const [ingrediente, qtdBase] of Object.entries(receita.ingredientes)) {
-      totais[ingrediente] = (totais[ingrediente] || 0) + (lotes * qtdBase);
-    }
-  });
-
-  tabelaTotais.innerHTML = "";
-  const listaTotais = Object.entries(totais).sort((a, b) => a[0].localeCompare(b[0]));
-
-  if (listaTotais.length === 0) {
-    tabelaTotais.innerHTML = '<tr><td colspan="2" class="empty-msg">Nenhum item selecionado</td></tr>';
-    return;
-  }
-
-  listaTotais.forEach(([ingrediente, qtd]) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${ingrediente}</td>
-      <td><strong class="total-highlight">${qtd}</strong></td>
-    `;
-    tabelaTotais.appendChild(tr);
-  });
-}
-
-if (btnLimpar) {
-  btnLimpar.addEventListener("click", () => {
+    const totais = {};
     document.querySelectorAll(".input-qtd").forEach((input) => {
-      input.value = 0;
+      const quantidade = parseInt(input.value, 10) || 0;
+      if (quantidade <= 0) return;
+
+      const receita = receitas[input.dataset.index];
+      if (!receita) return;
+
+      const lotes = Math.ceil(quantidade / receita.producao);
+      for (const [ingrediente, qtdBase] of Object.entries(receita.ingredientes)) {
+        totais[ingrediente] = (totais[ingrediente] || 0) + (lotes * qtdBase);
+      }
     });
-    receitas.forEach((_, i) => {
-      const td = document.getElementById(`res-${i}`);
-      if (td) td.innerHTML = "-";
+
+    tabelaTotais.innerHTML = "";
+    const listaTotais = Object.entries(totais).sort((a, b) => a[0].localeCompare(b[0]));
+
+    if (listaTotais.length === 0) {
+      tabelaTotais.innerHTML = '<tr><td colspan="2" class="empty-msg">Nenhum item selecionado</td></tr>';
+      return;
+    }
+
+    listaTotais.forEach(([ingrediente, qtd]) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${ingrediente}</td>
+        <td><strong class="total-highlight">${qtd}</strong></td>
+      `;
+      tabelaTotais.appendChild(tr);
     });
-    atualizarTotais();
-  });
+  }
+
+  if (btnLimpar) {
+    btnLimpar.addEventListener("click", () => {
+      document.querySelectorAll(".input-qtd").forEach((input) => {
+        input.value = 0;
+      });
+      receitas.forEach((_, i) => {
+        const td = document.getElementById(`res-${i}`);
+        if (td) td.innerHTML = "-";
+      });
+      atualizarTotais();
+    });
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initFabricacao);
+} else {
+  initFabricacao();
 }
