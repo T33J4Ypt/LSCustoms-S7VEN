@@ -2,6 +2,7 @@ const produtos = [
   { nome: "Kits de Reparação", semParceria: 12000, comParceria: 7500 },
   { nome: "Ramen", semParceria: 27000, comParceria: 22000 },
   { nome: "Energético", semParceria: 15000, comParceria: 10000 },
+  { nome: "Pano de Limpeza", semParceria: 10000, comParceria: 0 },
   { nome: "Reparações nos Elevadores", semParceria: 15000, comParceria: 0 }
 ];
 
