@@ -25,6 +25,7 @@ const receitas = [
   // Extras (3 itens)
   { nome: "Caixa de Ferramentas", categoria: "extras", producao: 1, ingredientes: { "Sucata de metal": 8, "Ferro": 3, "Plástico": 2 } },
   { nome: "Tablet do Mecânico", categoria: "extras", producao: 1, ingredientes: { "Placa de circuito": 1, "Plástico": 4, "Vidro": 2 } },
+  { nome: "Pano de Limpeza", categoria: "extras", producao: 5, ingredientes: { "Rolo de Tecido": 1 } },
   { nome: "Motor Elétrico", categoria: "extras", producao: 1, ingredientes: { "Bloco de Motor B+": 1, "Placa de circuito": 2, "Cobre": 6 } }
 ];
 
